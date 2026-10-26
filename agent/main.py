@@ -382,8 +382,8 @@ def add_retrieval_args(args):
     retrieval_effort_multiplier_mapping = {
         "minimal": [1, 1, 0],
         "low": [2, 3, 1],
-        "medium": [3, 4, 2],
-        "high": [4, 5, 2],
+        "medium": [3, 4, 1],
+        "high": [4, 5, 1],
         "medium-no-window": [3, 4, 0],
     }
     for key, multiplier in zip(
@@ -412,7 +412,7 @@ def check_reference_hit(gt_urls, pred_urls):
     return hit_urls
 
 
-def demo(i):
+def demo(i, search_agent=search_and_reason):
     from argparse import Namespace
 
     args = Namespace(
@@ -425,6 +425,12 @@ def demo(i):
         retrieval_effort=os.getenv("RETRIEVAL_EFFORT", "medium"),  # minimal, low, medium, high
         benchmark="test",
         max_iterations=5,
+        context_filtering_with="all",
+        save_llm_calls=False,
+        use_separated_judge=False,
+        use_separated_summarizer=False,
+        chunking="document-structure",
+        agent_workflow="",
     )
     add_retrieval_args(args)
     retrievers = [
@@ -476,9 +482,16 @@ def demo(i):
     question = samples[i]["question"]
     start_time = time.time()
     print_debug(f"\nConfigurations\n```python\n{args}\n```\n")
-    response = search_and_reason(
+    response = search_agent(
         args=args, question=question, given_retrievers=retrievers
     )
+    print("\n" + "=" * 20)
+    print(f"Question: {question}")
+    print(f"Correct answer: {samples[i]['gt_answer']}")
+    print(f"Predicted answer: {response['final_answer']}")
+    print(f"Search iterations: {response['num_iterations']}")
+    print(f"Total input tokens to LLMs: {sum(response['llm_input_words'])}")
+    print(f"Total input tokens to dense-search embedding model: {sum(response['dense_corpus_words'])}")
     print(f"Time taken: {time.time() - start_time:.2f} seconds")
 
 

@@ -39,7 +39,8 @@ export LITELLM_BASE_URL=end_point     # "http://localhost:8000/v1"
 export LITELLM_MODEL=your_model_name  # "hosted_vllm/gemma-4-E4B-it"
 export LITELLM_API_KEY=your_api_key   # optional for local-hosted models via vLLM/llama.cpp/etc.
 
-# run the agent on samples
+# run the agent on samples. Comparing ReAct and ReAct+RR (our method) on the same queries.
+python -m agent.react
 python -m agent.main
 ```
 

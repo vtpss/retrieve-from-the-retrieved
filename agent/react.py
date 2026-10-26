@@ -1,7 +1,7 @@
 from .utils import *
 from .dspy_programs import *
 from .search_sparse import SparseRetriever
-from .main import evidences_to_text
+from .main import evidences_to_text, demo
 
 
 def react_call(
@@ -207,3 +207,9 @@ def react_call(
 
     print_debug(f"\n\n### Search results for `{question}` is: `{candidates[0] if candidates else 'No answer'}`\n")
     return response
+
+
+if __name__ == "__main__":
+    os.environ["DEBUG"] = "1"
+    os.environ["RETRIEVAL_EFFORT"] = "medium"
+    demo(4, react_call)
