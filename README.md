@@ -3,6 +3,8 @@
 Our method applies hybrid retrieval on the retrieved web documents to cut the cost of the search agent by 50% at equal or better accuracy. 
 Evaluated on LiveNewsBench, Seal-Hard, DeepSearchQA, BrowseComp-Plus.
 
+[Paper](./assets/Skim-Before-You-Reason.pdf)
+
 > [!NOTE] 
 > `Retrive-from-the-retrieved` (in short, `RR`) is our method name.
 
@@ -39,13 +41,13 @@ export LITELLM_BASE_URL=end_point     # "http://localhost:8000/v1"
 export LITELLM_MODEL=your_model_name  # "hosted_vllm/gemma-4-E4B-it"
 export LITELLM_API_KEY=your_api_key   # optional for local-hosted models via vLLM/llama.cpp/etc.
 
-# run the agent on samples. Comparing ReAct and ReAct+RR (our method) on the same queries.
+# run the agent on samples. Comparing ReAct and ReAct+RR (our method) on the same demo query.
 python -m agent.react
 python -m agent.main
 ```
 
 
-## Evaluation code (to be updated)
+## Evaluation code
 
 > [!NOTE] 
 > Our RR method use dense vector search, which requires a GPU for deployment. 
@@ -56,6 +58,28 @@ python -m agent.main
 # deploy the inference and the judge models if needed. Use a DIFFERENT Python env
 # bash scripts/deploy_llms.sh
 
+# dry run the evaluation of all baselines on the first sample of LiveNewsBench
+export LITELLM_BASE_URL=end_point     # "http://localhost:8000/v1"
+export LITELLM_MODEL=your_model_name  # "hosted_vllm/gemma-4-E4B-it"
+export LITELLM_API_KEY=your_api_key   # optional for local-hosted models via vLLM/llama.cpp/etc.
+bash scripts/eval_dryrun.sh
+
 # run the evaluation on LiveNewsBench, Seal-Hard, DeepSearchQA
+# NOTE: you should check the model, base_url, api_key, 
+# and select the agent_workflow in the script `scripts/eval.sh` before running the evaluation.
 bash scripts/eval.sh
 ```
+
+
+## Citation
+
+You can refer to this work with this BibTeX:
+
+```bibtex
+@misc{do2026rr,
+  title   = "Skim Before You Reason: Half the Cost, Similar Accuracy in Agentic Search",
+  author  = "Quyet V. Do",
+  year    = "2026",
+  month   = "October",
+  url     = "https://github.com/vtpss/retrieve-from-the-retrieved"
+}

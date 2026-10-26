@@ -1,8 +1,5 @@
 # Assuming a `gemma-4-E4B-it` model is deployed at localhost:8000, and a `gpt-oss-20b` model is deployed at localhost:8001, run the following command to evaluate the benchmarks
 
-export MODEL_FOLDER="gemma-4-E4B-it"
-export PORT=8000
-
 export EVALUATION_PHASE="final" # ["benchmark_probing", "final"]
 export DEBUG=0  # 1 for verbose logging, 0 for mininal logging
 
@@ -22,10 +19,13 @@ BENCHMARKS=(
     "deepsearchqa"
 )
 
+
 for benchmark in "${BENCHMARKS[@]}"; do
     mkdir -p "results/benchmarks/${benchmark}"
     echo "Running evaluation ${AGENT_WORKFLOW} ${MODEL_FOLDER} on benchmark: ${benchmark}"
     python benchmarks/${benchmark}_eval_script.py \
-        --agent_workflow ${AGENT_WORKFLOW} --model "hosted_vllm/${MODEL_FOLDER}" --base_url "http://localhost:${PORT}/v1" \
-        --sub_model "hosted_vllm/gpt-oss-20b" --sub_base_url "http://localhost:8001/v1" --use_separated_judge
+        --agent_workflow ${AGENT_WORKFLOW} \
+        --model "hosted_vllm/gemma-4-E4B-it" --base_url "http://localhost:8000/v1" --api_key "dummy" \
+        --sub_model "hosted_vllm/gpt-oss-20b" --sub_base_url "http://localhost:8001/v1" --sub_api_key "dummy" \
+        --use_separated_judge
 done

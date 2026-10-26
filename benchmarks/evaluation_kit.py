@@ -249,7 +249,7 @@ def create_parser_and_model_config():
     )
     parser.add_argument(
         "--max_iterations",
-        default=int(os.getenv("MAX_ITERATIONS", 10)),
+        default=int(os.getenv("MAX_ITERATIONS", 20)),
         type=int,
         help="Maximum number of iterations for the agent to think and retrieve. "
         "Only applicable to iterative agents like ours. Not used for single-turn agents.",
