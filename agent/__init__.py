@@ -5,7 +5,6 @@
 from .utils import *
 from .search_sparse import SparseRetriever
 from .search_dense import DenseRetriever
-from .search_dense_faiss import FaissRetriever
 from .search_web import WebRetriever, METADATA_TEXT_SEP, normalize_str
 from .dspy_programs import *
 from .main import (
@@ -14,4 +13,4 @@ from .main import (
 )
 from .react import react_call
 
-__version__ = '0.2.2' # In this version, by default, we only use duckduckgo search, and don't use code.
+__version__ = '0.1.0'

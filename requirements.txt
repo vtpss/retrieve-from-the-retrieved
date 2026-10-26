@@ -1,0 +1,12 @@
+"bm25s[core]"==0.3.6
+"pylate[eval]"==1.4.0
+transformers==4.56.2
+dspy-ai==3.4.1
+"litellm[proxy]"==1.82.1
+tiktoken
+rlms
+pymediawiki
+ddgs
+trafilatura
+markdownify
+func-timeout
